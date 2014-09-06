@@ -1,0 +1,35 @@
+--- Cakefile~	2012-10-23 13:45:31.000000000 -0700
++++ Cakefile	2013-01-15 03:52:34.445701376 -0700
+@@ -45,22 +45,24 @@
+   console.log color + message + reset + ' ' + (explanation or '')
+ 
+ option '-p', '--prefix [DIR]', 'set the installation prefix for `cake install`'
++option '-d', '--destdir [DIR]', 'set the installation destination for `cake install`'
+ 
+ task 'install', 'install CoffeeScript into /usr/local (or --prefix)', (options) ->
++  destdir = options.destdir or ''
+   base = options.prefix or '/usr/local'
+-  lib  = "#{base}/lib/coffee-script"
++  lib  = "#{base}/share/coffee-script"
+   bin  = "#{base}/bin"
+-  node = "~/.node_libraries/coffee-script"
++  node = "#{base}/lib/node_modules/coffee-script"
+   console.log   "Installing CoffeeScript to #{lib}"
+   console.log   "Linking to #{node}"
+   console.log   "Linking 'coffee' to #{bin}/coffee"
+   exec([
+-    "mkdir -p #{lib} #{bin}"
+-    "cp -rf bin lib LICENSE README package.json src #{lib}"
+-    "ln -sfn #{lib}/bin/coffee #{bin}/coffee"
+-    "ln -sfn #{lib}/bin/cake #{bin}/cake"
+-    "mkdir -p ~/.node_libraries"
+-    "ln -sfn #{lib}/lib/coffee-script #{node}"
++    "mkdir -p #{destdir}/#{lib} #{destdir}/#{bin}"
++    "cp -prf bin extras lib package.json src #{destdir}/#{lib}"
++    "ln -sfn #{lib}/bin/coffee #{destdir}/#{bin}/coffee"
++    "ln -sfn #{lib}/bin/cake #{destdir}/#{bin}/cake"
++    "mkdir -p #{destdir}/#{node}"
++    "ln -sfn #{lib}/lib/coffee-script #{destdir}/#{node}"
+   ].join(' && '), (err, stdout, stderr) ->
+     if err then console.log stderr.trim() else log 'done', green
+   )

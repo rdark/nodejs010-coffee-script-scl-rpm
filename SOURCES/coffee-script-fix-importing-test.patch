@@ -1,0 +1,264 @@
+From 2e408648aad42901d96df01fe8475a18054e32c2 Mon Sep 17 00:00:00 2001
+From: Jeremy Ashkenas <jashkenas@gmail.com>
+Date: Sun, 2 Jun 2013 10:57:18 +0400
+Subject: [PATCH] renaming import test files to avoid risking the disfavor of
+ .gitignore
+
+---
+ test/importing.coffee                     | 6 +++---
+ test/importing/.import.coffee             | 2 ++
+ test/importing/.import.coffee.md          | 3 +++
+ test/importing/.import2                   | 2 ++
+ test/importing/.test.coffee               | 2 --
+ test/importing/.test.coffee.md            | 3 ---
+ test/importing/.test2                     | 2 --
+ test/importing/import.coffee              | 2 ++
+ test/importing/import.coffee.md           | 3 +++
+ test/importing/import.extension.coffee    | 2 ++
+ test/importing/import.extension.coffee.md | 3 +++
+ test/importing/import.extension.js        | 2 ++
+ test/importing/import.js                  | 2 ++
+ test/importing/import.litcoffee           | 3 +++
+ test/importing/import.unknownextension    | 2 ++
+ test/importing/import2                    | 2 ++
+ test/importing/test.coffee.md             | 3 ---
+ test/importing/test.extension.coffee      | 2 --
+ test/importing/test.extension.coffee.md   | 3 ---
+ test/importing/test.extension.js          | 2 --
+ test/importing/test.js                    | 2 --
+ test/importing/test.unknownextension      | 2 --
+ test/importing/test2                      | 2 --
+ 23 files changed, 31 insertions(+), 26 deletions(-)
+ create mode 100644 test/importing/.import.coffee
+ create mode 100644 test/importing/.import.coffee.md
+ create mode 100644 test/importing/.import2
+ delete mode 100644 test/importing/.test.coffee
+ delete mode 100644 test/importing/.test.coffee.md
+ delete mode 100644 test/importing/.test2
+ create mode 100644 test/importing/import.coffee
+ create mode 100644 test/importing/import.coffee.md
+ create mode 100644 test/importing/import.extension.coffee
+ create mode 100644 test/importing/import.extension.coffee.md
+ create mode 100644 test/importing/import.extension.js
+ create mode 100644 test/importing/import.js
+ create mode 100644 test/importing/import.litcoffee
+ create mode 100644 test/importing/import.unknownextension
+ create mode 100644 test/importing/import2
+ delete mode 100644 test/importing/test.coffee.md
+ delete mode 100644 test/importing/test.extension.coffee
+ delete mode 100644 test/importing/test.extension.coffee.md
+ delete mode 100644 test/importing/test.extension.js
+ delete mode 100644 test/importing/test.js
+ delete mode 100644 test/importing/test.unknownextension
+ delete mode 100644 test/importing/test2
+
+diff --git a/test/importing.coffee b/test/importing.coffee
+index 91d56d4..96fff02 100644
+--- a/test/importing.coffee
++++ b/test/importing.coffee
+@@ -19,16 +19,16 @@ unless window? or testingBrowser?
+ 
+   test "javascript modules can be imported", ->
+     magicVal = 1
+-    for module in 'test.js test2 .test2 test.extension.js test.unknownextension .coffee .coffee.md'.split ' '
++    for module in 'import.js import2 .import2 import.extension.js import.unknownextension .coffee .coffee.md'.split ' '
+       ok require("./importing/#{module}").value?() is magicVal, module
+ 
+   test "coffeescript modules can be imported", ->
+     magicVal = 2
+-    for module in '.test.coffee test.coffee test.extension.coffee'.split ' '
++    for module in '.import.coffee import.coffee import.extension.coffee'.split ' '
+       ok require("./importing/#{module}").value?() is magicVal, module
+ 
+   test "literate coffeescript modules can be imported", ->
+     magicVal = 3
+     # Leading space intentional to check for index.coffee.md
+-    for module in ' .test.coffee.md test.coffee.md test.litcoffee test.extension.coffee.md'.split ' '
++    for module in ' .import.coffee.md import.coffee.md import.litcoffee import.extension.coffee.md'.split ' '
+       ok require("./importing/#{module}").value?() is magicVal, module
+diff --git a/test/importing/.import.coffee b/test/importing/.import.coffee
+new file mode 100644
+index 0000000..ff8ad83
+--- /dev/null
++++ b/test/importing/.import.coffee
+@@ -0,0 +1,2 @@
++# Required by ../importing.coffee
++module.exports = {value: -> 2}
+diff --git a/test/importing/.import.coffee.md b/test/importing/.import.coffee.md
+new file mode 100644
+index 0000000..99459eb
+--- /dev/null
++++ b/test/importing/.import.coffee.md
+@@ -0,0 +1,3 @@
++Required by ../importing.coffee
++
++    module.exports = {value: -> 3}
+diff --git a/test/importing/.import2 b/test/importing/.import2
+new file mode 100644
+index 0000000..34f70d6
+--- /dev/null
++++ b/test/importing/.import2
+@@ -0,0 +1,2 @@
++// Required by ../importing.coffee
++module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/.test.coffee b/test/importing/.test.coffee
+deleted file mode 100644
+index ff8ad83..0000000
+--- a/test/importing/.test.coffee
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# Required by ../importing.coffee
+-module.exports = {value: -> 2}
+diff --git a/test/importing/.test.coffee.md b/test/importing/.test.coffee.md
+deleted file mode 100644
+index 99459eb..0000000
+--- a/test/importing/.test.coffee.md
++++ /dev/null
+@@ -1,3 +0,0 @@
+-Required by ../importing.coffee
+-
+-    module.exports = {value: -> 3}
+diff --git a/test/importing/.test2 b/test/importing/.test2
+deleted file mode 100644
+index 34f70d6..0000000
+--- a/test/importing/.test2
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// Required by ../importing.coffee
+-module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/import.coffee b/test/importing/import.coffee
+new file mode 100644
+index 0000000..ff8ad83
+--- /dev/null
++++ b/test/importing/import.coffee
+@@ -0,0 +1,2 @@
++# Required by ../importing.coffee
++module.exports = {value: -> 2}
+diff --git a/test/importing/import.coffee.md b/test/importing/import.coffee.md
+new file mode 100644
+index 0000000..99459eb
+--- /dev/null
++++ b/test/importing/import.coffee.md
+@@ -0,0 +1,3 @@
++Required by ../importing.coffee
++
++    module.exports = {value: -> 3}
+diff --git a/test/importing/import.extension.coffee b/test/importing/import.extension.coffee
+new file mode 100644
+index 0000000..ff8ad83
+--- /dev/null
++++ b/test/importing/import.extension.coffee
+@@ -0,0 +1,2 @@
++# Required by ../importing.coffee
++module.exports = {value: -> 2}
+diff --git a/test/importing/import.extension.coffee.md b/test/importing/import.extension.coffee.md
+new file mode 100644
+index 0000000..99459eb
+--- /dev/null
++++ b/test/importing/import.extension.coffee.md
+@@ -0,0 +1,3 @@
++Required by ../importing.coffee
++
++    module.exports = {value: -> 3}
+diff --git a/test/importing/import.extension.js b/test/importing/import.extension.js
+new file mode 100644
+index 0000000..34f70d6
+--- /dev/null
++++ b/test/importing/import.extension.js
+@@ -0,0 +1,2 @@
++// Required by ../importing.coffee
++module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/import.js b/test/importing/import.js
+new file mode 100644
+index 0000000..34f70d6
+--- /dev/null
++++ b/test/importing/import.js
+@@ -0,0 +1,2 @@
++// Required by ../importing.coffee
++module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/import.litcoffee b/test/importing/import.litcoffee
+new file mode 100644
+index 0000000..99459eb
+--- /dev/null
++++ b/test/importing/import.litcoffee
+@@ -0,0 +1,3 @@
++Required by ../importing.coffee
++
++    module.exports = {value: -> 3}
+diff --git a/test/importing/import.unknownextension b/test/importing/import.unknownextension
+new file mode 100644
+index 0000000..34f70d6
+--- /dev/null
++++ b/test/importing/import.unknownextension
+@@ -0,0 +1,2 @@
++// Required by ../importing.coffee
++module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/import2 b/test/importing/import2
+new file mode 100644
+index 0000000..34f70d6
+--- /dev/null
++++ b/test/importing/import2
+@@ -0,0 +1,2 @@
++// Required by ../importing.coffee
++module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/test.coffee.md b/test/importing/test.coffee.md
+deleted file mode 100644
+index 99459eb..0000000
+--- a/test/importing/test.coffee.md
++++ /dev/null
+@@ -1,3 +0,0 @@
+-Required by ../importing.coffee
+-
+-    module.exports = {value: -> 3}
+diff --git a/test/importing/test.extension.coffee b/test/importing/test.extension.coffee
+deleted file mode 100644
+index ff8ad83..0000000
+--- a/test/importing/test.extension.coffee
++++ /dev/null
+@@ -1,2 +0,0 @@
+-# Required by ../importing.coffee
+-module.exports = {value: -> 2}
+diff --git a/test/importing/test.extension.coffee.md b/test/importing/test.extension.coffee.md
+deleted file mode 100644
+index 99459eb..0000000
+--- a/test/importing/test.extension.coffee.md
++++ /dev/null
+@@ -1,3 +0,0 @@
+-Required by ../importing.coffee
+-
+-    module.exports = {value: -> 3}
+diff --git a/test/importing/test.extension.js b/test/importing/test.extension.js
+deleted file mode 100644
+index 34f70d6..0000000
+--- a/test/importing/test.extension.js
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// Required by ../importing.coffee
+-module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/test.js b/test/importing/test.js
+deleted file mode 100644
+index 34f70d6..0000000
+--- a/test/importing/test.js
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// Required by ../importing.coffee
+-module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/test.unknownextension b/test/importing/test.unknownextension
+deleted file mode 100644
+index 34f70d6..0000000
+--- a/test/importing/test.unknownextension
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// Required by ../importing.coffee
+-module.exports = {value: function(){return 1;}};
+diff --git a/test/importing/test2 b/test/importing/test2
+deleted file mode 100644
+index 34f70d6..0000000
+--- a/test/importing/test2
++++ /dev/null
+@@ -1,2 +0,0 @@
+-// Required by ../importing.coffee
+-module.exports = {value: function(){return 1;}};
+-- 
+1.8.2.1
+
